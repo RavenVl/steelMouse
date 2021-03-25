@@ -3,6 +3,11 @@ import json
 import requests
 import time
 
+def send_req(data, adr):
+    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    resp = requests.post(adr, data=json.dumps(data), headers=headers)
+    print(resp.status_code, resp.json())
+
 path_ini = path.join("c:\ProgramData\SteelSeries\SteelSeries Engine 3\coreProps.json")
 with open(path_ini) as file:
     temp = json.load(file)
@@ -27,9 +32,25 @@ meta_time = {
     "developer": "Raven Studios"
 }
 
-# r = requests.post(address_meta, json={'json_payload': meta_time})
 
-headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-r = requests.post(address_meta, data=json.dumps(meta_time), headers=headers)
-print(r.status_code, r.json())
+send_req(meta_time, address_meta)
+
+game_event = {
+  "game": "TEST_TIME",
+  "event": "TICK",
+  "icon_id": 1,
+  "handlers": [
+      {
+          "device-type": "screened",
+          "mode": "screen",
+          "zone": "one",
+          "datas": [{
+              "has-text": True,
+              "context-frame-key": "custom-text"
+          }]
+      }
+  ]
+}
+addr_bind_events = 'http://' + temp['address'] + '/bind_game_event'
+send_req(game_event, addr_bind_events)
 
