@@ -11,7 +11,7 @@ def send_req(data, adr):
 path_ini = path.join("c:\ProgramData\SteelSeries\SteelSeries Engine 3\coreProps.json")
 with open(path_ini) as file:
     temp = json.load(file)
-address_events = 'http://' + temp['address'] + '/game_event'
+
 address_meta = 'http://' + temp['address'] + '/game_metadata'
 
 cur_time = time.time()
@@ -51,6 +51,21 @@ game_event = {
       }
   ]
 }
+
 addr_bind_events = 'http://' + temp['address'] + '/bind_game_event'
 send_req(game_event, addr_bind_events)
+
+event_context = {
+  "game": "TEST_TIME",
+  "event": "TICK",
+  "data": {
+      "value": 75,
+      "frame": {
+        "custom-text": "Temp text value"
+      }
+  }
+}
+
+address_events = 'http://' + temp['address'] + '/game_event'
+send_req(event_context, address_events)
 
