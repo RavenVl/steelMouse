@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QGridLayout, QWidget, QCheckBox, QSystemTrayIcon, \
     QSpacerItem, QSizePolicy, QMenu, QAction, QStyle, qApp, QPushButton
 from PyQt5.QtCore import QSize, QTimer, QDateTime
-from send_time import SendIntToMouse
+from send_time import SendTimeToMouse
 
 class MainWindow(QMainWindow):
     """
@@ -61,7 +61,8 @@ class MainWindow(QMainWindow):
 
         self.startBtn.clicked.connect(self.startTimer)
         self.endBtn.clicked.connect(self.endTimer)
-        self.sender = SendIntToMouse()
+        self.sender = SendTimeToMouse()
+        self.sender.start()
 
     def showTime(self):
         time = QDateTime.currentDateTime()
